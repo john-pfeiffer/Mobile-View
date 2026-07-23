@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mobile_View // Responsive Preview Tool</title>
+<meta name="description" content="Paste any link and preview it at true phone and tablet dimensions." />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><rect width=%2224%22 height=%2224%22 rx=%224%22 fill=%22%23060606%22/><rect x=%227%22 y=%223%22 width=%2210%22 height=%2218%22 rx=%222%22 fill=%22none%22 stroke=%22%236BFF3C%22 stroke-width=%222%22/></svg>" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header class="topnav">
+  <div class="brand">
+    <svg class="brand-mark" width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="7" y="2.5" width="10" height="19" rx="2.2" stroke="currentColor" stroke-width="1.6"/>
+      <line x1="10.5" y1="18.2" x2="13.5" y2="18.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+    </svg>
+    <span class="brand-text">MOBILE<br/>VIEW</span>
+  </div>
+
+  <div class="status-badge">
+    <span class="dot"></span>RENDER_READY
+  </div>
+
+  <nav class="main-nav">
+    <a href="#viewer" class="active">VIEWER</a>
+    <a href="#devices">DEVICES</a>
+    <a href="#about">ABOUT</a>
+  </nav>
+
+  <button id="theme-toggle" class="icon-btn" aria-label="Toggle color theme" title="Toggle theme">
+    <svg id="theme-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.6"/>
+      <g stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+        <line x1="12" y1="1.5" x2="12" y2="4"/>
+        <line x1="12" y1="20" x2="12" y2="22.5"/>
+        <line x1="1.5" y1="12" x2="4" y2="12"/>
+        <line x1="20" y1="12" x2="22.5" y2="12"/>
+        <line x1="4.2" y1="4.2" x2="6" y2="6"/>
+        <line x1="18" y1="18" x2="19.8" y2="19.8"/>
+        <line x1="19.8" y1="4.2" x2="18" y2="6"/>
+        <line x1="6" y1="18" x2="4.2" y2="19.8"/>
+      </g>
+    </svg>
+  </button>
+</header>
+
+<main>
+
+  <section class="hero" id="viewer">
+    <h1 class="glow-title">Mobile_View</h1>
+    <p class="sub">Paste a link, pick a device, see the exact page at true phone and tablet dimensions. Everything renders live in your browser &mdash; nothing is uploaded or stored.</p>
+
+    <div class="url-bar panel">
+      <span class="prompt">&gt;</span>
+      <input id="url-input" type="text" inputmode="url" autocomplete="off" spellcheck="false"
+             placeholder="PASTE_URL_HERE  e.g. example.com" />
+      <button id="load-btn" class="bracket-btn accent">[ LOAD ]</button>
+    </div>
+
+    <div id="url-note" class="inline-note"></div>
+  </section>
+
+  <section class="panel devices" id="devices">
+    <div class="panel-label-row">
+      <span class="panel-label">DEVICE_PRESET</span>
+      <span class="panel-label-sub" id="device-count">&mdash;</span>
+    </div>
+    <div class="device-grid" id="device-grid"></div>
+  </section>
+
+  <section class="viewport-area">
+    <div class="panel viewport-panel">
+      <div class="panel-label-row">
+        <span class="panel-label">PREVIEW</span>
+        <div class="controls">
+          <button id="orientation-btn" class="bracket-btn">[ ROTATE ]</button>
+          <div class="zoom-readout">SCALE: <span id="scale-value">100%</span></div>
+          <button id="reload-btn" class="bracket-btn">[ RELOAD ]</button>
+          <button id="share-btn" class="bracket-btn">[ COPY_LINK ]</button>
+        </div>
+      </div>
+
+      <div class="stage" id="stage">
+        <div class="frame-scaler" id="frame-scaler">
+          <div class="device-frame" id="device-frame">
+            <div class="frame-cutout" id="frame-cutout"></div>
+            <iframe id="preview-frame" title="Page preview" src="about:blank" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox allow-modals"></iframe>
+            <div class="home-indicator" id="home-indicator"></div>
+          </div>
+        </div>
+        <div class="empty-state" id="empty-state">
+          <span>DROP_A_URL_ABOVE</span>
+          <small>or press LOAD with the field empty to try a sample page</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="readout-grid panel">
+      <div class="readout"><span class="r-label">DEVICE</span><span class="r-value" id="r-device">&mdash;</span></div>
+      <div class="readout"><span class="r-label">WIDTH</span><span class="r-value" id="r-width">&mdash;</span></div>
+      <div class="readout"><span class="r-label">HEIGHT</span><span class="r-value" id="r-height">&mdash;</span></div>
+      <div class="readout"><span class="r-label">DPR</span><span class="r-value" id="r-dpr">&mdash;</span></div>
+      <div class="readout"><span class="r-label">ORIENTATION</span><span class="r-value" id="r-orientation">PORTRAIT</span></div>
+    </div>
+
+    <div class="panel note-panel">
+      <div class="panel-label-row">
+        <span class="panel-label">IN_PLAIN_ENGLISH</span>
+      </div>
+      <ul class="dot-notes">
+        <li><span class="bullet warn"></span>The iframe's viewport is set to the device's exact CSS pixel size, so responsive breakpoints and media queries fire the same way they would on the real device.</li>
+        <li><span class="bullet ok"></span>DPR (device pixel ratio) is shown for reference only &mdash; it affects image sharpness, not layout width.</li>
+        <li><span class="bullet danger"></span>Some sites block embedding entirely (<code>X-Frame-Options</code> / <code>frame-ancestors</code>). If a preview stays blank, that's the target site's own security policy &mdash; it can't be bypassed from here.</li>
+        <li><span class="bullet ok"></span>Use <span class="kbd">[ COPY_LINK ]</span> to share this exact URL + device + orientation combination with someone else.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="panel about" id="about">
+    <div class="panel-label-row">
+      <span class="panel-label">ABOUT</span>
+    </div>
+    <p>Mobile_View is a small, static tool for checking how a page looks across real device sizes &mdash; no build step, no server, no tracking. Pick a preset or add your own, then share the resulting link so everyone reviewing a design is looking at the same frame.</p>
+  </section>
+
+</main>
+
+<footer>
+  <span>MOBILE_VIEW</span>
+  <span class="sep">&middot;</span>
+  <span>runs entirely client-side</span>
+</footer>
+
+<script src="app.js" defer></script>
+</body>
+</html>
