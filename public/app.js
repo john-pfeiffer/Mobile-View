@@ -2,49 +2,51 @@
   'use strict';
 
   // width/height are the CSS viewport the device's browser lays pages out
-  // at; pw/ph are the physical screen pixels (viewport × DPR, as marketed).
+  // at; pw/ph are the physical screen pixels and ppi the pixel density, as
+  // published by the manufacturers. See SOURCES.md at the repo root for the
+  // spec page behind every entry.
   const BRANDS = [
     {
       brand: 'iPhone',
       devices: [
-        { id: 'iphone-se',      name: 'iPhone SE (2/3)',      width: 375, height: 667, pw: 750,  ph: 1334, dpr: 2,    type: 'iphone-classic' },
-        { id: 'iphone-11',      name: 'iPhone 11',            width: 414, height: 896, pw: 828,  ph: 1792, dpr: 2,    type: 'iphone-notch' },
-        { id: 'iphone-13-mini', name: 'iPhone 13 Mini',       width: 375, height: 812, pw: 1080, ph: 2340, dpr: 3,    type: 'iphone-notch' },
-        { id: 'iphone-14',      name: 'iPhone 13 / 14',       width: 390, height: 844, pw: 1170, ph: 2532, dpr: 3,    type: 'iphone-notch' },
-        { id: 'iphone-15',      name: 'iPhone 15',            width: 393, height: 852, pw: 1179, ph: 2556, dpr: 3,    type: 'iphone-dynamic' },
-        { id: 'iphone-15-pm',   name: 'iPhone 15 Pro Max',    width: 430, height: 932, pw: 1290, ph: 2796, dpr: 3,    type: 'iphone-dynamic' },
-        { id: 'iphone-16',      name: 'iPhone 16',            width: 393, height: 852, pw: 1179, ph: 2556, dpr: 3,    type: 'iphone-dynamic' },
-        { id: 'iphone-16-pro',  name: 'iPhone 16 Pro',        width: 402, height: 874, pw: 1206, ph: 2622, dpr: 3,    type: 'iphone-dynamic' },
-        { id: 'iphone-16-pm',   name: 'iPhone 16 Pro Max',    width: 440, height: 956, pw: 1320, ph: 2868, dpr: 3,    type: 'iphone-dynamic' },
+        { id: 'iphone-se',      name: 'iPhone SE (2/3)',      width: 375, height: 667, pw: 750,  ph: 1334, ppi: 326, dpr: 2,    type: 'iphone-classic' },
+        { id: 'iphone-11',      name: 'iPhone 11',            width: 414, height: 896, pw: 828,  ph: 1792, ppi: 326, dpr: 2,    type: 'iphone-notch' },
+        { id: 'iphone-13-mini', name: 'iPhone 13 Mini',       width: 375, height: 812, pw: 1080, ph: 2340, ppi: 476, dpr: 3,    type: 'iphone-notch' },
+        { id: 'iphone-14',      name: 'iPhone 13 / 14',       width: 390, height: 844, pw: 1170, ph: 2532, ppi: 460, dpr: 3,    type: 'iphone-notch' },
+        { id: 'iphone-15',      name: 'iPhone 15',            width: 393, height: 852, pw: 1179, ph: 2556, ppi: 460, dpr: 3,    type: 'iphone-dynamic' },
+        { id: 'iphone-15-pm',   name: 'iPhone 15 Pro Max',    width: 430, height: 932, pw: 1290, ph: 2796, ppi: 460, dpr: 3,    type: 'iphone-dynamic' },
+        { id: 'iphone-16',      name: 'iPhone 16',            width: 393, height: 852, pw: 1179, ph: 2556, ppi: 460, dpr: 3,    type: 'iphone-dynamic' },
+        { id: 'iphone-16-pro',  name: 'iPhone 16 Pro',        width: 402, height: 874, pw: 1206, ph: 2622, ppi: 460, dpr: 3,    type: 'iphone-dynamic' },
+        { id: 'iphone-16-pm',   name: 'iPhone 16 Pro Max',    width: 440, height: 956, pw: 1320, ph: 2868, ppi: 460, dpr: 3,    type: 'iphone-dynamic' },
       ],
     },
     {
       brand: 'Samsung',
       devices: [
-        { id: 'galaxy-s21',     name: 'Galaxy S21',           width: 360, height: 800, pw: 1080, ph: 2400, dpr: 3,    type: 'android-punch' },
-        { id: 'galaxy-s23',     name: 'Galaxy S23',           width: 360, height: 780, pw: 1080, ph: 2340, dpr: 3,    type: 'android-punch' },
-        { id: 'galaxy-s24',     name: 'Galaxy S24',           width: 360, height: 780, pw: 1080, ph: 2340, dpr: 3,    type: 'android-punch' },
-        { id: 'galaxy-s24u',    name: 'Galaxy S24 Ultra',     width: 384, height: 832, pw: 1440, ph: 3120, dpr: 3.75, type: 'android-punch' },
-        { id: 'galaxy-a54',     name: 'Galaxy A54',           width: 360, height: 780, pw: 1080, ph: 2340, dpr: 3,    type: 'android-punch' },
-        { id: 'galaxy-fold',    name: 'Galaxy Z Fold (cover)',width: 344, height: 882, pw: 904,  ph: 2316, dpr: 2.625,type: 'android-punch' },
+        { id: 'galaxy-s21',     name: 'Galaxy S21',           width: 360, height: 800, pw: 1080, ph: 2400, ppi: 421, dpr: 3,    type: 'android-punch' },
+        { id: 'galaxy-s23',     name: 'Galaxy S23',           width: 360, height: 780, pw: 1080, ph: 2340, ppi: 425, dpr: 3,    type: 'android-punch' },
+        { id: 'galaxy-s24',     name: 'Galaxy S24',           width: 360, height: 780, pw: 1080, ph: 2340, ppi: 416, dpr: 3,    type: 'android-punch' },
+        { id: 'galaxy-s24u',    name: 'Galaxy S24 Ultra',     width: 384, height: 832, pw: 1440, ph: 3120, ppi: 505, dpr: 3.75, type: 'android-punch' },
+        { id: 'galaxy-a54',     name: 'Galaxy A54',           width: 360, height: 780, pw: 1080, ph: 2340, ppi: 403, dpr: 3,    type: 'android-punch' },
+        { id: 'galaxy-fold',    name: 'Galaxy Z Fold (cover)',width: 344, height: 882, pw: 904,  ph: 2316, ppi: 402, dpr: 2.625,type: 'android-punch' },
       ],
     },
     {
       brand: 'Google Pixel',
       devices: [
-        { id: 'pixel-6',        name: 'Pixel 6 / 7',          width: 412, height: 915, pw: 1080, ph: 2400, dpr: 2.625,type: 'android-punch' },
-        { id: 'pixel-8',        name: 'Pixel 8',              width: 412, height: 915, pw: 1080, ph: 2400, dpr: 2.625,type: 'android-punch' },
-        { id: 'pixel-8-pro',    name: 'Pixel 8 Pro',          width: 448, height: 998, pw: 1344, ph: 2992, dpr: 3,    type: 'android-punch' },
-        { id: 'pixel-9',        name: 'Pixel 9',              width: 412, height: 923, pw: 1080, ph: 2424, dpr: 2.625,type: 'android-punch' },
+        { id: 'pixel-7',        name: 'Pixel 7',              width: 412, height: 915, pw: 1080, ph: 2400, ppi: 416, dpr: 2.625,type: 'android-punch' },
+        { id: 'pixel-8',        name: 'Pixel 8',              width: 412, height: 915, pw: 1080, ph: 2400, ppi: 428, dpr: 2.625,type: 'android-punch' },
+        { id: 'pixel-8-pro',    name: 'Pixel 8 Pro',          width: 448, height: 998, pw: 1344, ph: 2992, ppi: 489, dpr: 3,    type: 'android-punch' },
+        { id: 'pixel-9',        name: 'Pixel 9',              width: 412, height: 923, pw: 1080, ph: 2424, ppi: 422, dpr: 2.625,type: 'android-punch' },
       ],
     },
     {
       brand: 'iPad',
       devices: [
-        { id: 'ipad-mini',      name: 'iPad Mini (6th gen)',  width: 744, height: 1133, pw: 1488, ph: 2266, dpr: 2,   type: 'tablet' },
-        { id: 'ipad-10',        name: 'iPad (10th gen) / Air',width: 820, height: 1180, pw: 1640, ph: 2360, dpr: 2,   type: 'tablet' },
-        { id: 'ipad-pro-11',    name: 'iPad Pro 11"',         width: 834, height: 1194, pw: 1668, ph: 2388, dpr: 2,   type: 'tablet' },
-        { id: 'ipad-pro-13',    name: 'iPad Pro 12.9"',       width: 1024, height: 1366, pw: 2048, ph: 2732, dpr: 2,  type: 'tablet' },
+        { id: 'ipad-mini',      name: 'iPad Mini (6th gen)',  width: 744, height: 1133, pw: 1488, ph: 2266, ppi: 326, dpr: 2,   type: 'tablet' },
+        { id: 'ipad-10',        name: 'iPad (10th gen) / Air',width: 820, height: 1180, pw: 1640, ph: 2360, ppi: 264, dpr: 2,   type: 'tablet' },
+        { id: 'ipad-pro-11',    name: 'iPad Pro 11"',         width: 834, height: 1194, pw: 1668, ph: 2388, ppi: 264, dpr: 2,   type: 'tablet' },
+        { id: 'ipad-pro-13',    name: 'iPad Pro 12.9"',       width: 1024, height: 1366, pw: 2048, ph: 2732, ppi: 264, dpr: 2,  type: 'tablet' },
       ],
     },
   ];
@@ -75,6 +77,7 @@
     rDevice: $('#r-device'),
     rResolution: $('#r-resolution'),
     rViewport: $('#r-viewport'),
+    rPpi: $('#r-ppi'),
     rDpr: $('#r-dpr'),
     rOrientation: $('#r-orientation'),
     themeToggle: $('#theme-toggle'),
@@ -213,6 +216,7 @@
     el.rDevice.textContent = d.name.toUpperCase();
     el.rResolution.textContent = `${pw}×${ph}`;
     el.rViewport.textContent = `${width}×${height}`;
+    el.rPpi.textContent = String(d.ppi);
     el.rDpr.textContent = d.dpr + 'x';
     el.rOrientation.textContent = state.orientation.toUpperCase();
 
