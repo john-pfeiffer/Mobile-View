@@ -144,7 +144,12 @@ code {
   color: var(--text);
 }
 
-.brand-mark { color: var(--accent); flex-shrink: 0; }
+.brand-mark {
+  display: block;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
 
 .brand-text {
   font-family: var(--font-pixel);

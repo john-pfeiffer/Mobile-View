@@ -5,14 +5,20 @@ dimensions — rendered live in an iframe, nothing uploaded or stored.
 
 No build step, no server, no dependencies. It's three static files.
 
-## Run it
+## Layout
 
-Open `index.html` directly in a browser, or serve the folder locally:
+- `public/` — the static site (Vercel serves this directory; pinned via
+  `vercel.json`'s `outputDirectory`).
+- `api/` — Vercel serverless functions (the embed proxy).
+
+## Run it locally
 
 ```bash
-python3 -m http.server 8000
+cd public && python3 -m http.server 8000
 # then open http://localhost:8000
 ```
+
+Without the `/api` routes the app falls back to direct embedding only.
 
 ## Features
 
