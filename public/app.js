@@ -3,16 +3,53 @@
 
   // width/height are the CSS viewport the device's browser lays pages out
   // at; pw/ph are the physical screen pixels (viewport × DPR, as marketed).
-  const DEVICES = [
-    { id: 'iphone-se',      name: 'iPhone SE',            width: 375, height: 667,  pw: 750,  ph: 1334, dpr: 2,     type: 'iphone-classic' },
-    { id: 'iphone-15',      name: 'iPhone 15',            width: 393, height: 852,  pw: 1179, ph: 2556, dpr: 3,     type: 'iphone-notch' },
-    { id: 'iphone-15-pm',   name: 'iPhone 15 Pro Max',    width: 430, height: 932,  pw: 1290, ph: 2796, dpr: 3,     type: 'iphone-dynamic' },
-    { id: 'galaxy-s23',     name: 'Galaxy S23',           width: 360, height: 780,  pw: 1080, ph: 2340, dpr: 3,     type: 'android-punch' },
-    { id: 'pixel-8',        name: 'Pixel 8',              width: 412, height: 915,  pw: 1080, ph: 2400, dpr: 2.625, type: 'android-punch' },
-    { id: 'galaxy-fold',    name: 'Galaxy Z Fold (cover)',width: 344, height: 882,  pw: 904,  ph: 2316, dpr: 2.625, type: 'android-punch' },
-    { id: 'ipad-mini',      name: 'iPad Mini',            width: 744, height: 1133, pw: 1488, ph: 2266, dpr: 2,     type: 'tablet' },
-    { id: 'ipad-pro-11',    name: 'iPad Pro 11"',         width: 834, height: 1194, pw: 1668, ph: 2388, dpr: 2,     type: 'tablet' },
+  const BRANDS = [
+    {
+      brand: 'iPhone',
+      devices: [
+        { id: 'iphone-se',      name: 'iPhone SE (2/3)',      width: 375, height: 667, pw: 750,  ph: 1334, dpr: 2,    type: 'iphone-classic' },
+        { id: 'iphone-11',      name: 'iPhone 11',            width: 414, height: 896, pw: 828,  ph: 1792, dpr: 2,    type: 'iphone-notch' },
+        { id: 'iphone-13-mini', name: 'iPhone 13 Mini',       width: 375, height: 812, pw: 1080, ph: 2340, dpr: 3,    type: 'iphone-notch' },
+        { id: 'iphone-14',      name: 'iPhone 13 / 14',       width: 390, height: 844, pw: 1170, ph: 2532, dpr: 3,    type: 'iphone-notch' },
+        { id: 'iphone-15',      name: 'iPhone 15',            width: 393, height: 852, pw: 1179, ph: 2556, dpr: 3,    type: 'iphone-dynamic' },
+        { id: 'iphone-15-pm',   name: 'iPhone 15 Pro Max',    width: 430, height: 932, pw: 1290, ph: 2796, dpr: 3,    type: 'iphone-dynamic' },
+        { id: 'iphone-16',      name: 'iPhone 16',            width: 393, height: 852, pw: 1179, ph: 2556, dpr: 3,    type: 'iphone-dynamic' },
+        { id: 'iphone-16-pro',  name: 'iPhone 16 Pro',        width: 402, height: 874, pw: 1206, ph: 2622, dpr: 3,    type: 'iphone-dynamic' },
+        { id: 'iphone-16-pm',   name: 'iPhone 16 Pro Max',    width: 440, height: 956, pw: 1320, ph: 2868, dpr: 3,    type: 'iphone-dynamic' },
+      ],
+    },
+    {
+      brand: 'Samsung',
+      devices: [
+        { id: 'galaxy-s21',     name: 'Galaxy S21',           width: 360, height: 800, pw: 1080, ph: 2400, dpr: 3,    type: 'android-punch' },
+        { id: 'galaxy-s23',     name: 'Galaxy S23',           width: 360, height: 780, pw: 1080, ph: 2340, dpr: 3,    type: 'android-punch' },
+        { id: 'galaxy-s24',     name: 'Galaxy S24',           width: 360, height: 780, pw: 1080, ph: 2340, dpr: 3,    type: 'android-punch' },
+        { id: 'galaxy-s24u',    name: 'Galaxy S24 Ultra',     width: 384, height: 832, pw: 1440, ph: 3120, dpr: 3.75, type: 'android-punch' },
+        { id: 'galaxy-a54',     name: 'Galaxy A54',           width: 360, height: 780, pw: 1080, ph: 2340, dpr: 3,    type: 'android-punch' },
+        { id: 'galaxy-fold',    name: 'Galaxy Z Fold (cover)',width: 344, height: 882, pw: 904,  ph: 2316, dpr: 2.625,type: 'android-punch' },
+      ],
+    },
+    {
+      brand: 'Google Pixel',
+      devices: [
+        { id: 'pixel-6',        name: 'Pixel 6 / 7',          width: 412, height: 915, pw: 1080, ph: 2400, dpr: 2.625,type: 'android-punch' },
+        { id: 'pixel-8',        name: 'Pixel 8',              width: 412, height: 915, pw: 1080, ph: 2400, dpr: 2.625,type: 'android-punch' },
+        { id: 'pixel-8-pro',    name: 'Pixel 8 Pro',          width: 448, height: 998, pw: 1344, ph: 2992, dpr: 3,    type: 'android-punch' },
+        { id: 'pixel-9',        name: 'Pixel 9',              width: 412, height: 923, pw: 1080, ph: 2424, dpr: 2.625,type: 'android-punch' },
+      ],
+    },
+    {
+      brand: 'iPad',
+      devices: [
+        { id: 'ipad-mini',      name: 'iPad Mini (6th gen)',  width: 744, height: 1133, pw: 1488, ph: 2266, dpr: 2,   type: 'tablet' },
+        { id: 'ipad-10',        name: 'iPad (10th gen) / Air',width: 820, height: 1180, pw: 1640, ph: 2360, dpr: 2,   type: 'tablet' },
+        { id: 'ipad-pro-11',    name: 'iPad Pro 11"',         width: 834, height: 1194, pw: 1668, ph: 2388, dpr: 2,   type: 'tablet' },
+        { id: 'ipad-pro-13',    name: 'iPad Pro 12.9"',       width: 1024, height: 1366, pw: 2048, ph: 2732, dpr: 2,  type: 'tablet' },
+      ],
+    },
   ];
+
+  const DEVICES = BRANDS.flatMap((b) => b.devices);
 
   const SAMPLE_URL = 'https://example.com';
 
@@ -41,7 +78,7 @@
   };
 
   const state = {
-    deviceId: DEVICES[1].id,
+    deviceId: 'iphone-15',
     orientation: 'portrait',
     url: '',
   };
@@ -73,21 +110,84 @@
       : { width: d.width, height: d.height };
   }
 
-  function renderDeviceGrid() {
+  // Remembers the last model picked within each brand, so inactive brands'
+  // dropdowns keep showing a sensible choice.
+  const brandChoice = {};
+  const brandUi = []; // { brand, card, select, dims } — built once, updated in place
+
+  function pickDevice(id, brand) {
+    state.deviceId = id;
+    brandChoice[brand] = id;
+    updateDeviceGrid();
+    applyFrame();
+    syncUrlParams();
+  }
+
+  function buildDeviceGrid() {
     el.deviceGrid.innerHTML = '';
-    DEVICES.forEach((d) => {
-      const btn = document.createElement('button');
-      btn.className = 'device-btn' + (d.id === state.deviceId ? ' selected' : '');
-      btn.innerHTML = `<span class="d-name">${d.name}</span><span class="d-dims">${d.pw}×${d.ph} · ${d.dpr}x</span>`;
-      btn.addEventListener('click', () => {
-        state.deviceId = d.id;
-        renderDeviceGrid();
-        applyFrame();
-        syncUrlParams();
+    BRANDS.forEach((b) => {
+      brandChoice[b.brand] = b.devices.some((d) => d.id === state.deviceId)
+        ? state.deviceId
+        : b.devices[0].id;
+
+      const card = document.createElement('div');
+      card.className = 'brand-card';
+
+      const name = document.createElement('span');
+      name.className = 'd-name';
+      name.textContent = b.brand;
+
+      const selectWrap = document.createElement('div');
+      selectWrap.className = 'select-wrap';
+      const select = document.createElement('select');
+      select.className = 'model-select';
+      select.setAttribute('aria-label', `${b.brand} model`);
+      b.devices.forEach((d) => {
+        const opt = document.createElement('option');
+        opt.value = d.id;
+        opt.textContent = d.name;
+        select.appendChild(opt);
       });
-      el.deviceGrid.appendChild(btn);
+      const arrow = document.createElement('span');
+      arrow.className = 'select-arrow';
+      arrow.textContent = '▾';
+      selectWrap.append(select, arrow);
+
+      const dims = document.createElement('span');
+      dims.className = 'd-dims';
+
+      select.addEventListener('change', () => pickDevice(select.value, b.brand));
+      // Interacting with an inactive brand's dropdown activates its shown
+      // model right away (no `change` fires if the value doesn't change).
+      select.addEventListener('focus', () => {
+        if (!b.devices.some((d) => d.id === state.deviceId)) {
+          pickDevice(select.value, b.brand);
+        }
+      });
+      // Clicking anywhere else on an inactive card activates it too.
+      card.addEventListener('click', (e) => {
+        if (e.target !== select && !b.devices.some((d) => d.id === state.deviceId)) {
+          pickDevice(select.value, b.brand);
+        }
+      });
+
+      card.append(name, selectWrap, dims);
+      el.deviceGrid.appendChild(card);
+      brandUi.push({ brand: b, card, select, dims });
     });
-    el.deviceCount.textContent = `${DEVICES.length} PRESETS`;
+    el.deviceCount.textContent = `${DEVICES.length} MODELS · ${BRANDS.length} BRANDS`;
+    updateDeviceGrid();
+  }
+
+  function updateDeviceGrid() {
+    brandUi.forEach(({ brand, card, select, dims }) => {
+      const active = brand.devices.some((d) => d.id === state.deviceId);
+      const shownId = active ? state.deviceId : brandChoice[brand.brand];
+      const shown = brand.devices.find((d) => d.id === shownId) || brand.devices[0];
+      card.classList.toggle('selected', active);
+      select.value = shown.id;
+      dims.textContent = `${shown.pw}×${shown.ph} · ${shown.dpr}x`;
+    });
   }
 
   function applyFrame() {
@@ -207,8 +307,14 @@
     const qDevice = params.get('device');
     const qOrientation = params.get('orientation');
 
-    if (qDevice && DEVICES.some((d) => d.id === qDevice)) state.deviceId = qDevice;
+    if (qDevice && DEVICES.some((d) => d.id === qDevice)) {
+      state.deviceId = qDevice;
+      const owner = BRANDS.find((b) => b.devices.some((d) => d.id === qDevice));
+      if (owner) brandChoice[owner.brand] = qDevice;
+    }
     if (qOrientation === 'landscape' || qOrientation === 'portrait') state.orientation = qOrientation;
+    updateDeviceGrid();
+    applyFrame();
     if (qUrl) {
       el.urlInput.value = qUrl;
       loadUrl(qUrl);
@@ -261,7 +367,7 @@
   window.addEventListener('resize', () => requestAnimationFrame(fitScale));
 
   initTheme();
-  renderDeviceGrid();
+  buildDeviceGrid();
   applyFrame();
   loadFromQueryParams();
 })();
