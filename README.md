@@ -34,6 +34,12 @@ try a different URL.
 ## Style
 
 Visual language follows the [EVS Records](https://www.evsrecords.com/)
-tools pages: black background, monospace type, `UPPERCASE_SNAKE_CASE`
-panel labels, hairline borders, bracket-style buttons, and a neon-green
+tools pages: black background, `UPPERCASE_SNAKE_CASE` panel labels,
+hairline borders, zero corner radius, bracket-style buttons, a film-grain
+overlay on the site chrome (never on the device mockup), and a neon-green
 accent for status/active state.
+
+Typography is the [Geist](https://vercel.com/font) family, self-hosted in
+`fonts/` (SIL OFL 1.1, license included): Geist for body text, Geist Mono
+for technical labels and readouts, and Geist Pixel (Square) for display
+headings.
