@@ -1,15 +1,17 @@
 (() => {
   'use strict';
 
+  // width/height are the CSS viewport the device's browser lays pages out
+  // at; pw/ph are the physical screen pixels (viewport × DPR, as marketed).
   const DEVICES = [
-    { id: 'iphone-se',      name: 'iPhone SE',            width: 375, height: 667,  dpr: 2,   type: 'iphone-classic' },
-    { id: 'iphone-15',      name: 'iPhone 15',            width: 393, height: 852,  dpr: 3,   type: 'iphone-notch' },
-    { id: 'iphone-15-pm',   name: 'iPhone 15 Pro Max',    width: 430, height: 932,  dpr: 3,   type: 'iphone-dynamic' },
-    { id: 'galaxy-s23',     name: 'Galaxy S23',           width: 360, height: 780,  dpr: 3,   type: 'android-punch' },
-    { id: 'pixel-8',        name: 'Pixel 8',              width: 412, height: 915,  dpr: 2.6, type: 'android-punch' },
-    { id: 'galaxy-fold',    name: 'Galaxy Z Fold (cover)',width: 344, height: 882,  dpr: 2.8, type: 'android-punch' },
-    { id: 'ipad-mini',      name: 'iPad Mini',            width: 768, height: 1024, dpr: 2,   type: 'tablet' },
-    { id: 'ipad-pro-11',    name: 'iPad Pro 11"',         width: 834, height: 1194, dpr: 2,   type: 'tablet' },
+    { id: 'iphone-se',      name: 'iPhone SE',            width: 375, height: 667,  pw: 750,  ph: 1334, dpr: 2,     type: 'iphone-classic' },
+    { id: 'iphone-15',      name: 'iPhone 15',            width: 393, height: 852,  pw: 1179, ph: 2556, dpr: 3,     type: 'iphone-notch' },
+    { id: 'iphone-15-pm',   name: 'iPhone 15 Pro Max',    width: 430, height: 932,  pw: 1290, ph: 2796, dpr: 3,     type: 'iphone-dynamic' },
+    { id: 'galaxy-s23',     name: 'Galaxy S23',           width: 360, height: 780,  pw: 1080, ph: 2340, dpr: 3,     type: 'android-punch' },
+    { id: 'pixel-8',        name: 'Pixel 8',              width: 412, height: 915,  pw: 1080, ph: 2400, dpr: 2.625, type: 'android-punch' },
+    { id: 'galaxy-fold',    name: 'Galaxy Z Fold (cover)',width: 344, height: 882,  pw: 904,  ph: 2316, dpr: 2.625, type: 'android-punch' },
+    { id: 'ipad-mini',      name: 'iPad Mini',            width: 744, height: 1133, pw: 1488, ph: 2266, dpr: 2,     type: 'tablet' },
+    { id: 'ipad-pro-11',    name: 'iPad Pro 11"',         width: 834, height: 1194, pw: 1668, ph: 2388, dpr: 2,     type: 'tablet' },
   ];
 
   const SAMPLE_URL = 'https://example.com';
@@ -31,8 +33,8 @@
     iframe: $('#preview-frame'),
     scaleValue: $('#scale-value'),
     rDevice: $('#r-device'),
-    rWidth: $('#r-width'),
-    rHeight: $('#r-height'),
+    rResolution: $('#r-resolution'),
+    rViewport: $('#r-viewport'),
     rDpr: $('#r-dpr'),
     rOrientation: $('#r-orientation'),
     themeToggle: $('#theme-toggle'),
@@ -76,7 +78,7 @@
     DEVICES.forEach((d) => {
       const btn = document.createElement('button');
       btn.className = 'device-btn' + (d.id === state.deviceId ? ' selected' : '');
-      btn.innerHTML = `<span class="d-name">${d.name}</span><span class="d-dims">${d.width}×${d.height} · ${d.dpr}x</span>`;
+      btn.innerHTML = `<span class="d-name">${d.name}</span><span class="d-dims">${d.pw}×${d.ph} · ${d.dpr}x</span>`;
       btn.addEventListener('click', () => {
         state.deviceId = d.id;
         renderDeviceGrid();
@@ -91,14 +93,17 @@
   function applyFrame() {
     const d = currentDevice();
     const { width, height } = currentDims();
+    const landscape = state.orientation === 'landscape';
+    const [pw, ph] = landscape ? [d.ph, d.pw] : [d.pw, d.ph];
 
-    el.deviceFrame.className = 'device-frame type-' + d.type;
+    el.deviceFrame.className =
+      'device-frame type-' + d.type + (landscape ? ' landscape' : '');
     el.iframe.style.width = width + 'px';
     el.iframe.style.height = height + 'px';
 
     el.rDevice.textContent = d.name.toUpperCase();
-    el.rWidth.textContent = width + 'px';
-    el.rHeight.textContent = height + 'px';
+    el.rResolution.textContent = `${pw}×${ph}`;
+    el.rViewport.textContent = `${width}×${height}`;
     el.rDpr.textContent = d.dpr + 'x';
     el.rOrientation.textContent = state.orientation.toUpperCase();
 

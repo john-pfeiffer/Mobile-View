@@ -506,6 +506,32 @@ code {
   border-radius: 50%;
 }
 
+/* Rotated: hardware cutouts move to the left edge (vertically centered),
+   matching how the physical sensors sit in landscape. The home indicator
+   stays bottom-center, as on real devices. */
+.device-frame.landscape .frame-cutout {
+  top: 50%;
+  left: 14px;
+  transform: translateY(-50%);
+}
+
+.device-frame.type-iphone-notch.landscape .frame-cutout {
+  width: 22px;
+  height: 46%;
+  border-radius: 0 14px 14px 0;
+}
+
+.device-frame.type-iphone-dynamic.landscape .frame-cutout {
+  left: 22px;
+  width: 24px;
+  height: 28%;
+  border-radius: 16px;
+}
+
+.device-frame.type-android-punch.landscape .frame-cutout { left: 24px; }
+
+.device-frame.type-tablet.landscape .frame-cutout { left: 20px; }
+
 .empty-state {
   position: absolute;
   inset: 20px 0 4px;

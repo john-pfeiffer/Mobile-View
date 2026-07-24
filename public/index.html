@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Mobile_View // Responsive Preview Tool</title>
 <meta name="description" content="Paste any link and preview it at true phone and tablet dimensions." />
-<link rel="icon" type="image/png" href="img/frame-16.png" />
+<link rel="icon" type="image/png" sizes="64x64" href="img/favicon.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png" />
 <link rel="preload" href="fonts/Geist-Variable.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/GeistMono-Variable.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/GeistPixel-Square.woff2" as="font" type="font/woff2" crossorigin>
@@ -99,8 +100,8 @@
 
     <div class="readout-grid panel">
       <div class="readout"><span class="r-label">DEVICE</span><span class="r-value" id="r-device">&mdash;</span></div>
-      <div class="readout"><span class="r-label">WIDTH</span><span class="r-value" id="r-width">&mdash;</span></div>
-      <div class="readout"><span class="r-label">HEIGHT</span><span class="r-value" id="r-height">&mdash;</span></div>
+      <div class="readout"><span class="r-label">RESOLUTION</span><span class="r-value" id="r-resolution">&mdash;</span></div>
+      <div class="readout"><span class="r-label">VIEWPORT</span><span class="r-value" id="r-viewport">&mdash;</span></div>
       <div class="readout"><span class="r-label">DPR</span><span class="r-value" id="r-dpr">&mdash;</span></div>
       <div class="readout"><span class="r-label">ORIENTATION</span><span class="r-value" id="r-orientation">PORTRAIT</span></div>
     </div>
@@ -110,8 +111,8 @@
         <span class="panel-label">IN_PLAIN_ENGLISH</span>
       </div>
       <ul class="dot-notes">
-        <li><span class="bullet warn"></span>The iframe's viewport is set to the device's exact CSS pixel size, so responsive breakpoints and media queries fire the same way they would on the real device.</li>
-        <li><span class="bullet ok"></span>DPR (device pixel ratio) is shown for reference only &mdash; it affects image sharpness, not layout width.</li>
+        <li><span class="bullet warn"></span>RESOLUTION is the physical screen (e.g. 1179×2556 on iPhone 15); VIEWPORT is what the phone's browser actually lays pages out at (physical &divide; DPR, e.g. 393×852). The preview renders at the viewport size &mdash; exactly like the real device &mdash; so responsive breakpoints fire correctly.</li>
+        <li><span class="bullet ok"></span>DPR (device pixel ratio) is how many physical pixels each CSS pixel maps to &mdash; it affects image sharpness, not layout width.</li>
         <li><span class="bullet danger"></span>Sites that block embedding (<code>X-Frame-Options</code> / <code>frame-ancestors</code>) are detected automatically and routed through a server-side proxy. The proxy fetches anonymously &mdash; no cookies ever pass through &mdash; so logged-in views won't render, and heavy client-side apps may not fully work.</li>
         <li><span class="bullet ok"></span>Use <span class="kbd">[ COPY_LINK ]</span> to share this exact URL + device + orientation combination with someone else.</li>
       </ul>
