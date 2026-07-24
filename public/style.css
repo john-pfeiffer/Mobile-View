@@ -445,17 +445,22 @@ code {
 .stage {
   position: relative;
   min-height: 420px;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
+  max-height: calc(100vh - 140px);
   padding: 20px 0 4px;
-  overflow: hidden;
+  overflow: auto;
 }
 
-/* Above the body::after grain layer (z-index 4) so the mockup stays clean. */
+.stage::-webkit-scrollbar { width: 8px; height: 8px; }
+.stage::-webkit-scrollbar-track { background: transparent; }
+.stage::-webkit-scrollbar-thumb { background: var(--border-strong); }
+
+/* Above the body::after grain layer (z-index 4) so the mockup stays clean.
+   Auto margins center it when it fits; when zoomed past the stage width it
+   overflows into the stage's own scrollable area instead of clipping. */
 .frame-scaler {
   position: relative;
   z-index: 6;
+  margin: 0 auto;
   transform-origin: top center;
   transition: transform 0.15s ease;
 }

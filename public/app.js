@@ -69,6 +69,9 @@
     deviceFrame: $('#device-frame'),
     iframe: $('#preview-frame'),
     scaleValue: $('#scale-value'),
+    zoomInBtn: $('#zoom-in-btn'),
+    zoomOutBtn: $('#zoom-out-btn'),
+    zoomFitBtn: $('#zoom-fit-btn'),
     rDevice: $('#r-device'),
     rResolution: $('#r-resolution'),
     rViewport: $('#r-viewport'),
@@ -81,7 +84,13 @@
     deviceId: 'iphone-15',
     orientation: 'portrait',
     url: '',
+    zoom: 'fit', // 'fit' or a number 0.25–2
   };
+
+  const ZOOM_MIN = 0.25;
+  const ZOOM_MAX = 2;
+  const ZOOM_STEP = 0.25;
+  let lastAppliedScale = 1; // what fitScale last rendered, used as the base for +/-
 
   function normalizeUrl(raw) {
     const trimmed = raw.trim();
@@ -220,7 +229,9 @@
     const stageTop = el.stage.getBoundingClientRect().top;
     const availH = Math.max(300, window.innerHeight - stageTop - 40);
 
-    const scale = Math.min(1, availW / frameW, availH / frameH);
+    const fit = Math.min(1, availW / frameW, availH / frameH);
+    const scale = state.zoom === 'fit' ? fit : state.zoom;
+    lastAppliedScale = scale;
 
     // device-frame is sized to its natural (unscaled) footprint so the
     // transform below shrinks it visually without the browser's
@@ -232,7 +243,17 @@
     el.deviceFrame.style.transform = `scale(${scale})`;
     el.deviceFrame.style.transformOrigin = 'top left';
 
-    el.scaleValue.textContent = Math.round(scale * 100) + '%';
+    el.scaleValue.textContent =
+      Math.round(scale * 100) + '%' + (state.zoom === 'fit' ? ' · FIT' : '');
+    el.zoomFitBtn.classList.toggle('selected', state.zoom === 'fit');
+  }
+
+  function stepZoom(dir) {
+    const base = state.zoom === 'fit' ? lastAppliedScale : state.zoom;
+    const stepped = Math.round((base + dir * ZOOM_STEP) / ZOOM_STEP) * ZOOM_STEP;
+    state.zoom = Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, stepped));
+    fitScale();
+    syncUrlParams();
   }
 
   async function checkFrameBlocked(target) {
@@ -297,6 +318,7 @@
     params.set('url', state.url);
     params.set('device', state.deviceId);
     params.set('orientation', state.orientation);
+    if (state.zoom !== 'fit') params.set('zoom', String(state.zoom));
     const newUrl = `${location.pathname}?${params.toString()}`;
     history.replaceState(null, '', newUrl);
   }
@@ -313,6 +335,8 @@
       if (owner) brandChoice[owner.brand] = qDevice;
     }
     if (qOrientation === 'landscape' || qOrientation === 'portrait') state.orientation = qOrientation;
+    const qZoom = parseFloat(params.get('zoom'));
+    if (!Number.isNaN(qZoom) && qZoom >= ZOOM_MIN && qZoom <= ZOOM_MAX) state.zoom = qZoom;
     updateDeviceGrid();
     applyFrame();
     if (qUrl) {
@@ -348,6 +372,14 @@
   el.orientationBtn.addEventListener('click', () => {
     state.orientation = state.orientation === 'portrait' ? 'landscape' : 'portrait';
     applyFrame();
+    syncUrlParams();
+  });
+
+  el.zoomInBtn.addEventListener('click', () => stepZoom(1));
+  el.zoomOutBtn.addEventListener('click', () => stepZoom(-1));
+  el.zoomFitBtn.addEventListener('click', () => {
+    state.zoom = 'fit';
+    fitScale();
     syncUrlParams();
   });
 
