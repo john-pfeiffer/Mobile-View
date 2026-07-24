@@ -24,12 +24,25 @@ python3 -m http.server 8000
   in the query string (`[ COPY_LINK ]`), so a reviewer opens the same frame.
 - **Light / dark theme** toggle, saved locally.
 
-## Known limitation
+## Embed-blocked sites
 
 Some sites send `X-Frame-Options` or a `frame-ancestors` CSP directive that
-blocks embedding entirely. That's the target site's own security policy — a
-client-side tool like this can't work around it. If a preview stays blank,
-try a different URL.
+blocks iframe embedding ("refused to connect"). When deployed on Vercel,
+`api/proxy.js` handles this automatically: the app first checks the site's
+headers, and if framing is blocked it fetches the page server-side, strips
+the frame-blocking headers, injects a `<base>` tag so assets resolve
+against the original origin, and serves it from our own origin.
+
+Limitations and properties of the proxy:
+
+- Fetches are **anonymous** — no cookies or auth are forwarded in either
+  direction, so logged-in views won't render.
+- Private/internal hosts are rejected (SSRF guard); only `http(s)` URLs to
+  public hosts are fetched.
+- Heavy client-side apps may not fully work through the proxy; simple
+  marketing/content pages work best.
+- When running as a plain static server (no `/api` routes), the app
+  gracefully falls back to direct embedding.
 
 ## Style
 

@@ -130,7 +130,23 @@
     el.scaleValue.textContent = Math.round(scale * 100) + '%';
   }
 
-  function loadUrl(rawInput) {
+  async function checkFrameBlocked(target) {
+    // Asks our serverless endpoint whether the site sends frame-blocking
+    // headers. Returns null when the endpoint isn't available (e.g. when
+    // running as a plain static server with no /api routes).
+    try {
+      const resp = await fetch(`/api/proxy?mode=check&url=${encodeURIComponent(target)}`, {
+        signal: AbortSignal.timeout(12000),
+      });
+      if (!resp.ok) return null;
+      const data = await resp.json();
+      return typeof data.blocked === 'boolean' ? data.blocked : null;
+    } catch {
+      return null;
+    }
+  }
+
+  async function loadUrl(rawInput) {
     let target = normalizeUrl(rawInput);
 
     if (!target) {
@@ -144,10 +160,25 @@
     }
 
     state.url = target;
-    el.iframe.src = target;
     el.stage.classList.add('has-content');
-    showNote(`Loaded ${target} — if the frame stays blank, the site is likely blocking embedding (X-Frame-Options).`, 'ok');
+    showNote('CHECKING_EMBED_POLICY...', '');
     syncUrlParams();
+
+    const blocked = await checkFrameBlocked(target);
+    if (state.url !== target) return; // a newer load superseded this one
+
+    if (blocked === true) {
+      el.iframe.src = `/api/proxy?url=${encodeURIComponent(target)}`;
+      showNote(`${target} blocks embedding — routed through the proxy (anonymous, logged-out view; complex apps may not fully work).`, 'ok');
+    } else {
+      el.iframe.src = target;
+      showNote(
+        blocked === false
+          ? `Loaded ${target} directly.`
+          : `Loaded ${target} — if the frame stays blank, the site is likely blocking embedding (X-Frame-Options).`,
+        'ok'
+      );
+    }
   }
 
   function showNote(msg, kind) {

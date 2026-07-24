@@ -115,7 +115,7 @@
       <ul class="dot-notes">
         <li><span class="bullet warn"></span>The iframe's viewport is set to the device's exact CSS pixel size, so responsive breakpoints and media queries fire the same way they would on the real device.</li>
         <li><span class="bullet ok"></span>DPR (device pixel ratio) is shown for reference only &mdash; it affects image sharpness, not layout width.</li>
-        <li><span class="bullet danger"></span>Some sites block embedding entirely (<code>X-Frame-Options</code> / <code>frame-ancestors</code>). If a preview stays blank, that's the target site's own security policy &mdash; it can't be bypassed from here.</li>
+        <li><span class="bullet danger"></span>Sites that block embedding (<code>X-Frame-Options</code> / <code>frame-ancestors</code>) are detected automatically and routed through a server-side proxy. The proxy fetches anonymously &mdash; no cookies ever pass through &mdash; so logged-in views won't render, and heavy client-side apps may not fully work.</li>
         <li><span class="bullet ok"></span>Use <span class="kbd">[ COPY_LINK ]</span> to share this exact URL + device + orientation combination with someone else.</li>
       </ul>
     </div>
